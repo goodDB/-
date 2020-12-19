@@ -1,0 +1,489 @@
+package demo;
+import java.util.*;
+public class MyShop {
+	public static void main(String[] args) 
+	{
+		Scanner input=new Scanner(System.in);
+		System.out.println("********************************************************");
+		System.out.println("\t\t\t粤运商场");
+		System.out.println("********************************************************");
+		String[] types={"电器","服饰","水果",""};	
+		System.out.println("商品：");
+		int	t=0,t1=0,t2=0,s=0;			//t是判断	t1,t2是判断是否登陆		s是选择类型循环判断
+		int 	ai = 0;								//ai用来记录是第几个用户登录
+		//定义用户信息：
+		String[]	uid={"101","110","","","",""};				//用户名
+		String[]	uname={"admin","wtf","","","",""};		//账号
+		String[]	upwd={"1a1a","2b2b","","","",""};		//密码
+		int[]	umoney={1010,20220,0,0,0,0};					//金钱
+		
+		//定义产品信息：
+		
+		//电器
+		int[]	uidd={1,2,3,4,0,0};																							//电器的编号
+		String[]	utyped={"TCL42寸液晶电视","一加八		","音频线		","华为met10	","",""};		//电器的商品名称	
+		String[]	uplaced={"China","China","China","China","",""};														//电器的产地
+		int[]	uunitd={1499,2599,33,1479,0,0};																						//电器的单价
+		int[]	ulengthd={101,102,103,104,0,0};																						//电器的库存
+		
+		//服饰
+		int[]	uidf={1,2,3,4,0,0};																							//服饰的编号
+		String[]	utypef={"短袖	","衬衫	","大短裤","羊皮大衣","",""};													//服饰的商品名称	
+		String[]	uplacef={"China","China","China","China","",""};														//服饰的产地
+		int[]	uunitf={12,123,1033,421,0,0};																							//服饰的单价
+		int[]	ulengthf={10,11,13,14,0,0};																								//服饰的库存
+		
+		//水果
+		int[]	uids={1,2,3,4,0,0};																							//水果的编号
+		String[]	utypes={"柚子","菠萝","香蕉","苹果","",""};																//水果的商品名称	
+		String[]	uplaces={"China","China","China","China","",""};														//水果的产地
+		int[]	uunits={12,13,15,21,0,0};																									//水果的单价
+		int[]	ulengths={10,11,13,14,0,0};																								//水果的库存
+		
+		//购物车
+		int y=0,y1=0,idt=0;						//y1也是工具人，用来判断登陆或者注册		idt用来记录临时选择的商品编号
+		String s1=null,s2="n";			//y是工具人		s1是循环判断商品类型是否正确
+		String p=null;int k=0;
+		int a=0;												//a是中介传递数
+		int[] uidt={0,0,0,0,0},d={0,0,0,0,0},num={0,0,0,0,0};						//uidt是记录下单编号		num是记录下单的数量	
+																											//d是记录下单的类型			1是电器	2是服饰    3是水果
+	
+		int dm=0;	int anum=0;																					//判断循环是否继续
+		String n="n";String	unamet=null;
+		int nume=0;
+		int e=0,e1=0,e2=0;							//判断是否继续执行循环		e2是中转数
+		do													//返回到选商品类型页面
+		{			
+			p="n";
+						//商品类型输出：
+						for(int x=0;x<3;x++)
+							System.out.println("\t\t\t"+(x+1)+"、 "+types[x]); 
+						System.out.println("请输入你选择的类型：");
+						
+						//触发提示登陆
+								y=input.nextInt();
+						do
+						{	
+							//登陆注册
+							if(k==0)
+							{
+								k++;
+								System.out.println("请选择：1、登陆\n\t2、注册");
+								y1=input.nextInt();
+								if(y1==2)
+								{	
+									anum=0;
+									for(int x=0;x<uid.length;x++)
+									{
+										if(!uid[x].equals(""))		//在定义初始化的时候是""，现在只能用"",用null会报错
+											anum++;
+									}
+									System.out.println("请输入用户名:");
+									uid[anum]=input.next();
+									System.out.println("请输入账号:");
+									n="n";unamet=null;
+									do
+									{	n="n";		
+										unamet=input.next();
+										for(int x=0;x<uid.length;x++)
+										{
+											if(uname[x].equals(unamet))
+											{
+												System.out.println("已存在该用户名，请重新输入");
+												n="y";
+											}
+										}
+										if(n.equals("n"))	uname[anum]=unamet;
+									}while(n.equals("y"));
+									uname[anum]=unamet;
+									do
+									{	n="n";
+										System.out.println("请输入密码:");
+										unamet=input.next();
+										if(unamet.length()<6)
+										{
+											System.out.println("密码太过于简单，请重新设置");
+											n="y";
+										}
+									}while(n.equals("y"));
+									
+									upwd[anum]=unamet;
+									umoney[anum]=20000;
+								}
+								//开始登陆：,判断账号是否正确	
+								if(t1==0)
+									System.out.println("请登陆：");				
+									s1="n";
+									System.out.print("账号：");
+									unamet=input.next();										
+									for(int x1=0;x1<uname.length;x1++)
+										if(!unamet.equals(null)&&!uname[x1].equals(""))
+											if(unamet.equals(uname[x1]))
+												{s1="y";t1=1;ai=x1;}
+									if(s1.equals("n"))	{System.out.println("输入账号错误，请重新输入\n");k--;}
+								}
+							}while(t1==0);	
+					if(k==1)
+					{
+						k++;
+						do
+						{
+							System.out.print("密码：");
+							String upwdt=input.next();										
+							for(int x1=0;x1<upwd.length;x1++)
+								if(!upwdt.equals(null)&&!upwd[x1].equals(""))
+									if(upwdt.equals(upwd[x1]))
+										{s2="y";t2=1;}
+							if(s2.equals("n"))	{System.out.println("输入密码错误，请重新输入\n");k--;}
+						}while(t2==0);
+					}
+								System.out.println("\n");
+								//选择循环
+								do
+								{
+									switch(y)
+									{
+										case 1:		{System.out.println("你选择了电器");s=1;break;}
+										case 2:		{System.out.println("你选择了服饰");s=2;break;}
+										case 3:		{System.out.println("你选择了水果");s=3;break;}
+										default:	
+										{
+											System.out.println("选择商品的类型不正确，请重新选择:");
+											y=input.nextInt();
+											break;
+											}
+									}
+								}while(s==0);
+								
+								
+								
+								//继续购物
+								do
+								{
+											s1="y";
+												
+											//输出商品
+											System.out.println("****************************************************************************");
+											System.out.println("\t编号\t"+"\t名称\t\t"+"\t\t\t\t产地\t"+"\t\t单价\t"+"\t库存\t");
+											//输出电器商品列表
+											if(s==1)
+											{
+												for(int x=0;x<uidd.length;x++)
+												{
+													if(uidd[x]!=0)
+													{
+														System.out.println("\t"+uidd[x]+"\t\t"+utyped[x]+"\t\t\t"+uplaced[x]
+													+"\t\t"+uunitd[x]+"\t\t"+ulengthd[x]);
+													}
+												}
+											}
+											//输出服饰商品列表
+											else if(s==2)
+											{
+												for(int x=0;x<uidf.length;x++)
+												{
+													if(uidf[x]!=0)
+													{
+														System.out.println("\t"+uidf[x]+"\t\t"+utypef[x]+"\t\t\t\t\t"+uplacef[x]
+													+"\t\t"+uunitf[x]+"\t\t"+ulengthf[x]);
+													}
+												}
+											}
+											//输出水果商品列表
+											else if(s==3)
+											{
+												for(int x=0;x<uidd.length;x++)
+												{
+													if(uids[x]!=0)
+													{
+														System.out.println("\t"+uids[x]+"\t\t"+utypes[x]+"\t\t\t\t\t\t"+uplaces[x]
+													+"\t\t"+uunits[x]+"\t\t"+ulengths[x]);
+													}
+												}
+											}
+													
+											System.out.println("****************************************************************************");
+											System.out.println("\n\n当前用户信息:\n用户名:"+uid[ai]+"\t  账号:"+uname[ai]+"\t  \t金钱:"+umoney[ai]);
+											System.out.println("****************************************************************************");
+											System.out.println("请输入你要购买产品的编号：  （返回上一层请输入88） ");
+											idt=input.nextInt();
+											 n=null;int m=0;
+											 	do
+												{	
+													if(s1.equals("y1"))
+													idt=input.nextInt();
+													s1="n";
+													if(s==1)
+														for(m=0;m<uidd.length;m++)
+															{	n="n";
+																if((m+1)==idt)
+																	{
+																		n="y1";break;
+																	}
+																}
+														else if(s==2)
+															for(m=0;m<uidf.length;m++)
+																{
+																	n="n";
+																	if((m+1)==idt)
+																	{
+																		n="y2";break;
+																	}
+																}
+															else if(s==3)
+																for(m=0;m<uids.length;m++)
+																{
+																	n="n";
+																	if((m+1)==idt)
+																	{
+																		n="y3";break;
+																	}
+																}
+															else
+																System.out.println("发生未知错误，请联系老师解决");
+															if(n.equals("n"))
+																if(idt==88)	s1="n";
+																else	{s1="y4";System.out.println("输入有误，请重新输入：");}
+														}while(s1.equals("y4"));
+														if(idt==88)	
+														{
+															p="y";
+														}
+														//输出购买信息
+														if(n.equals("y1"))	
+															System.out.println("编号："+uidd[m]+"\t名称："+utyped[m]+"\t产地"+uplaced[m]+"\t单价"+uunitd[m]+"库存"+ulengthd[m]);
+														else if(n.equals("y2"))	
+															System.out.println("编号："+uidf[m]+"\t名称："+utypef[m]+"\t产地"+uplacef[m]+"\t单价"+uunitf[m]+"库存"+ulengthf[m]);
+														else if(n.equals("y3"))	
+															System.out.println("编号："+uids[m]+"\t名称："+utypes[m]+"\t产地"+uplaces[m]+"\t单价"+uunits[m]+"库存"+ulengths[m]);
+													
+								
+								//开始下单购买
+								//选择商品
+								if(!p.equals("y"))
+								{
+								do
+								{	if(s1.equals("y"))
+									idt=input.nextInt();
+									s1="n";
+									if(s==1)
+									{
+										if(idt-1<uidd.length)
+											if(uidd[idt-1]==0)
+											{
+												System.out.println("输入超出范围，请重新输入:");
+												s1="y";
+											}
+						
+									}
+									if(s==2)
+									{
+										if(idt-1<uidf.length)
+											if(uidf[idt-1]==0)
+											{
+												System.out.println("输入超出范围，请重新输入:");
+												s1="y";
+											}	
+									}
+									if(s==3)
+									{
+										if(idt-1<uids.length)
+											if(uids[idt-1]==0)
+											{
+												System.out.println("输入超出范围，请重新输入:");
+												s1="y";
+											}			
+									}
+								}while(s1.equals("y"));
+								System.out.println();
+								
+								//选择数量
+								System.out.println("请输入购买的商品数量：\t");
+								a=input.nextInt();
+								nume=0;
+									do
+									{	
+										if(s1.equals("y"))
+										a=input.nextInt();
+										s1="n";
+										if(s==1)
+										{	
+											if(a>=1)
+											{
+												if(ulengthd[idt-1]<a)
+												{
+													System.out.println("输入超出范围，请重新输入:");
+													s1="y";
+												}
+												else if(ulengthd[idt-1]>=a)
+												{	
+													
+													for(int x=0;x<uidt.length;x++)
+														if(uidt[x]==0)
+															{
+																if(idt<ulengthd[idt-1])
+																{
+																	uidt[x]=idt;d[x]=s;num[x]=a;ulengthd[idt-1]=ulengthd[idt-1]-a;
+																	break;	
+																}								
+															}
+												}
+											}
+										}
+										else if(s==2)
+										{
+											if(a>=1)
+											{
+												if(ulengthf[idt-1]<a)
+												{
+													System.out.println("输入超出范围，请重新输入:");
+													s1="y";
+												}
+												else if(ulengthf[idt-1]>=a)
+												{	
+													
+													for(int x=0;x<uidt.length;x++)
+														if(uidt[x]==0)
+															{
+																if(idt<ulengthf[idt-1])
+																{
+																		uidt[x]=idt;d[x]=s;num[x]=a;	ulengthf[idt-1]=ulengthf[idt-1]-a;
+																		break;
+																}
+															}
+												}	
+											}
+										}
+										else if(s==3)
+										{
+											if(a>=1)
+											{
+												if(ulengths[idt-1]<a)
+												{
+													System.out.println("输入超出范围，请重新输入:");
+													s1="y";
+												}
+												else if(ulengths[idt-1]>=a)
+												{	
+													
+													for(int x=0;x<uidt.length;x++)
+														if(uidt[x]==0)
+															{	
+																if(idt<ulengths[idt-1])
+																{
+																	uidt[x]=idt;d[x]=s;num[x]=a;	ulengths[idt-1]=ulengths[idt-1]-a;
+																		break;
+																}
+															}
+												}
+											}
+										}
+									
+										if(a<1)
+										System.out.println("输入有误，请输入大于等于1的数");
+										if(!s1.equals("y"))
+										{
+											System.out.println("*******************************************************************************************");
+											e=0;e1=0;e2=0;							//判断是否继续执行循环		e2是中转数
+											for(int x=0;x<uidt.length;x++)			//uidt是记录下单编号		num是记录下单的数量	d是记录下单的类型123
+											{		
+												if(uidt[x]==0&&d[x]==0)
+													{	
+														if(e==0)
+															if(x>0)
+															{	
+																e2=uidt[x-1]-1;
+																if(e2<d.length)
+																	if(d[e2]==1)	
+																		System.out.print("购买了"+utyped[e2]+"\t");
+																	else	if(d[e2]==2)	
+																		System.out.print("购买了"+utypef[e2]+"\t");
+																	else if(d[e2]==3)	
+																		System.out.print("购买了"+utypes[e2]+"\t");
+																	e=1;
+															}		
+															else if(x==0)
+															{
+																e2=uidt[x]-1;
+																if(e2<d.length&&e2>=0)
+																	if(d[e2]==1)
+																		System.out.print("购买了"+utyped[e2-1]+"\t");
+																	else if(d[e2]==2)
+																		System.out.print("购买了"+utypef[e2-1]+"\t");
+																	else if(d[e2]==3)
+																		System.out.print("购买了"+utypes[e2-1]+"\t");
+																e=1;
+															}
+													}
+												if(num[x]==0)
+												{
+													if(e1==0)
+														if(x>0)
+														{	
+															if(d[x-1]==1)
+															{
+																nume=num[x-1]*uunitd[uidt[x-1]-1];
+															}
+															if(d[x-1]==2)
+																nume=num[x-1]*uunitf[uidt[x-1]];
+															if(d[x-1]==3)
+																nume=num[x-1]*uunits[uidt[x-1]];
+															if(!s1.equals("y"))
+																System.out.print(num[x-1]+"件\t\t共付款了"+nume+"￥\t");	
+															e1=1;
+														}		
+													System.out.println();
+												}
+											}
+										}
+									}while(s1.equals("y"));
+										int dmt=0;
+										do
+										{
+											umoney[ai]=umoney[ai]-nume;
+											System.out.println("余额为："+umoney[ai]+"￥");
+											System.out.println();
+											System.out.println("********************************************************************************************");
+											System.out.println("\t\t1、继续购物\n\t\t2、返回选择商品类型页面\n\t\t3、查看购物车");		
+											System.out.println("********************************************************************************************");
+											dm=input.nextInt();
+											if(dm==3)
+												{	int _num=0;
+													System.out.println("\t名称\t\t\t\t"+"\t\t\t\t产地\t"+"\t\t单价\t"+"\t数量\t"+"\t\t总价格");
+													for(int x=0;x<uidt.length;x++)					//uidt是记录下单编号		num是记录下单的数量	d是记录下单的类型123
+													{
+															
+														if(uidt[x]!=0)
+															if(d[x]==1)
+															{
+																_num=_num+uunitd[uidt[x]-1]*num[x];
+																System.out.println("\t\t\t"+utyped[uidt[x]-1]+"\t\t\t"+uplaced[x]+"\t\t"+uunitd[uidt[x]-1]+"\t\t\t"+num[x]+"\t\t"+_num);	
+															}
+															else	if(d[x]==2)
+															{
+																_num=_num+uunitf[uidt[x]-1]*num[x];
+																System.out.println("\t\t\t"+utypef[uidt[x]-1]+"\t\t\t"+uplacef[x]+"\t\t"+uunitf[uidt[x]-1]+"\t\t\t"+num[x]+"\t\t"+_num);	
+															}
+															else if(d[x]==3)
+															{
+																_num=_num+uunits[uidt[x]-1]*num[x];
+																System.out.println("\t\t\t"+utypes[uidt[x]-1]+"\t\t\t"+uplaces[x]+"\t\t"+uunits[uidt[x]-1]+"\t\t\t"+num[x]+"\t\t"+_num);	
+															}
+													}
+													System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+													System.out.println("\t1、返回\n\t2、GoodBye");
+													dmt=input.nextInt();
+													if(dmt!=1)
+													{
+														System.out.println("欢迎下次光临：");
+														System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+													}
+												}	
+											}while(dmt==1);
+								}
+								else
+									dm=2;
+										}while(dm==1);								
+		}while(dm==2);
+	}	
+}
